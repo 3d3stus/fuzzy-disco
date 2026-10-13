@@ -1,0 +1,1795 @@
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE SHARK JOURNAL</title>
+
+<style>
+/* =================================
+   OCEAN JOURNAL COLOR PALETTE
+================================= */
+:root {
+    --deep: #123b55;
+    --ocean: #267b96;
+    --sea: #80c9d6;
+    --foam: #e4f8f8;
+    --paper: #f8fcfd;
+    --lavender: #d9d2f3;
+    --ink: #294c60;
+    --white: #ffffff;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Georgia, "Times New Roman", serif;
+    color: var(--ink);
+    background:
+        radial-gradient(ellipse at top, #e9faff, transparent 65%),
+        #c8eaf0;
+    min-height: 100vh;
+    padding: 25px;
+}
+
+.journal {
+    max-width: 1100px;
+    margin: auto;
+    background: var(--paper);
+    border: 1px solid #b3dce4;
+    border-radius: 22px;
+    overflow: hidden;
+    box-shadow: 0 18px 55px #285c7040;
+}
+
+/* =================================
+   HEADER
+================================= */
+header {
+    background: linear-gradient(
+        140deg,
+        #123b55,
+        #267b96 65%,
+        #79c4d3
+    );
+    color: white;
+    padding: 40px 30px;
+}
+
+.header-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    font: 11px Arial, sans-serif;
+    color: #c5edf1;
+}
+
+header h1 {
+    font-size: clamp(32px, 6vw, 54px);
+    margin: 12px 0;
+}
+
+header p {
+    max-width: 560px;
+    line-height: 1.8;
+    color: #e0f6f8;
+}
+
+.header-stamp {
+    border: 1px solid #bceaf0;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    font-size: 12px;
+    line-height: 1.5;
+    transform: rotate(8deg);
+    background: #ffffff12;
+}
+
+/* =================================
+   CSS-ONLY PAGE NAVIGATION
+================================= */
+input[name="page"] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+}
+
+nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    padding: 15px 22px;
+    background: #e7f5f7;
+    border-bottom: 1px solid #c5e3e9;
+}
+
+nav label {
+    cursor: pointer;
+    padding: 12px 14px;
+    border-radius: 12px;
+    font: bold 13px Arial, sans-serif;
+    color: #477184;
+    transition: 0.25s;
+}
+
+nav label:hover {
+    background: white;
+    color: var(--ocean);
+    transform: translateY(-2px);
+}
+
+/* Highlight the selected tab */
+#home:checked ~ nav label[for="home"],
+#journal:checked ~ nav label[for="journal"],
+#files:checked ~ nav label[for="files"],
+#notes:checked ~ nav label[for="notes"],
+#about:checked ~ nav label[for="about"],
+#diary:checked ~ nav label[for="diary"] {
+    background: var(--deep);
+    color: white;
+}
+
+/* Keyboard accessibility */
+input[name="page"]:focus-visible ~ nav label {
+    outline: 2px solid var(--ocean);
+}
+
+/* =================================
+   PAGE SWITCHING
+================================= */
+.page {
+    display: none;
+    padding: 35px;
+    animation: appear 0.4s ease;
+}
+
+#home:checked ~ .pages .home-page,
+#journal:checked ~ .pages .journal-page,
+#files:checked ~ .pages .files-page,
+#notes:checked ~ .pages .notes-page,
+#about:checked ~ .pages .about-page,
+#diary:checked ~ .pages .diary-page {
+    display: block;
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: translateY(7px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =================================
+   GENERAL TEXT
+================================= */
+.section-tag {
+    color: #568fa1;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font: bold 10px Arial, sans-serif;
+    margin-bottom: 10px;
+}
+
+h2 {
+    font-size: 32px;
+    color: var(--deep);
+    margin-bottom: 12px;
+}
+
+h3 {
+    color: var(--deep);
+    margin-bottom: 10px;
+}
+
+.intro {
+    line-height: 1.9;
+    max-width: 700px;
+    margin-bottom: 25px;
+}
+
+.small-label {
+    display: inline-block;
+    font: bold 10px Arial, sans-serif;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #477b91;
+    background: #e4f5f7;
+    padding: 6px 9px;
+    border-radius: 6px;
+    margin-bottom: 12px;
+}
+
+blockquote {
+    margin: 25px 0;
+    padding: 22px;
+    border-left: 4px solid #a8a0df;
+    border-radius: 0 12px 12px 0;
+    background: #eeebfb;
+    line-height: 1.9;
+    font-style: italic;
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid #d2e6eb;
+    margin: 18px 0;
+}
+
+/* =================================
+   GENERAL CARDS
+================================= */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    margin: 25px 0;
+}
+
+.card {
+    background: white;
+    padding: 23px;
+    border: 1px solid #c9e6eb;
+    border-radius: 16px;
+    transition: 0.25s;
+    box-shadow: 0 5px 15px #244f6010;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px #244f6020;
+    border-color: #91cbd6;
+}
+
+.card p {
+    line-height: 1.9;
+    font-size: 14px;
+}
+
+.card-icon {
+    font-size: 29px;
+    margin-bottom: 12px;
+}
+
+/* =================================
+   SHARK SPECIES PROFILES
+================================= */
+.species {
+    background: white;
+    border: 1px solid #c9e6eb;
+    border-radius: 16px;
+    margin: 18px 0;
+    overflow: hidden;
+}
+
+.species-heading {
+    padding: 20px;
+    background: linear-gradient(110deg, #e1f5f7, #efedfc);
+}
+
+.species-heading h3 {
+    font-size: 22px;
+}
+
+.scientific {
+    color: #608394;
+    font-size: 14px;
+    font-style: italic;
+}
+
+.species-body {
+    padding: 20px;
+    line-height: 1.9;
+}
+
+.species-body p {
+    font-size: 14px;
+}
+
+.species-body ul {
+    padding-left: 22px;
+    margin: 10px 0;
+    font-size: 14px;
+}
+
+details {
+    margin-top: 15px;
+    border-radius: 10px;
+    background: #eaf7f9;
+    padding: 13px 15px;
+}
+
+summary {
+    cursor: pointer;
+    color: #28677f;
+    font: bold 13px Arial, sans-serif;
+}
+
+details p {
+    margin-top: 12px;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+/* =================================
+   OCEAN NOTES
+================================= */
+.paper-note {
+    background:
+        repeating-linear-gradient(
+            transparent,
+            transparent 30px,
+            #d5e8ec 31px
+        ),
+        white;
+    border: 1px solid #d2e6eb;
+    border-radius: 12px;
+    padding: 25px;
+    line-height: 31px;
+    margin: 20px 0;
+}
+
+.note-lines {
+    margin-top: 10px;
+    color: #648596;
+    font-size: 14px;
+}
+
+.checklist p {
+    margin: 12px 0;
+}
+
+.checklist input {
+    accent-color: #7c91cb;
+    margin-right: 8px;
+    cursor: pointer;
+}
+
+/* =================================
+   ABOUT ME
+================================= */
+.profile-banner {
+    padding: 25px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #d9d2f3, #dff7f9);
+    text-align: center;
+    margin: 20px 0;
+}
+
+.profile-avatar {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 15px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: #ffffffb8;
+    border: 2px solid white;
+    font-size: 42px;
+}
+
+.profile-banner h3 {
+    font-size: 25px;
+}
+
+.profile-banner p {
+    line-height: 1.9;
+}
+
+.profile-facts {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin: 20px 0;
+}
+
+.profile-fact {
+    background: white;
+    border: 1px solid #d2e8ed;
+    padding: 17px;
+    border-radius: 13px;
+    line-height: 1.8;
+}
+
+.profile-fact strong {
+    display: block;
+    color: #477f96;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+}
+
+/* =================================
+   DIARY
+================================= */
+.diary-cover {
+    background: linear-gradient(135deg, #e6e0fa, #d8f2f5);
+    padding: 25px;
+    border-radius: 16px;
+    margin: 20px 0;
+}
+
+.diary-entry {
+    background:
+        repeating-linear-gradient(
+            to bottom,
+            #fffefa 0px,
+            #fffefa 31px,
+            #dce9ef 32px
+        );
+    border: 1px solid #d4e5e9;
+    border-radius: 14px;
+    padding: 22px;
+    margin: 22px 0;
+    line-height: 32px;
+    box-shadow: 0 5px 15px #294c6010;
+}
+
+.diary-date {
+    font: bold 11px Arial, sans-serif;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #668ca0;
+    border-bottom: 1px dashed #abcbd5;
+    padding-bottom: 8px;
+    margin-bottom: 10px;
+}
+
+.diary-entry h3 {
+    font-size: 21px;
+}
+
+.diary-entry p {
+    line-height: 32px;
+}
+
+.diary-signoff {
+    color: #8b80bb;
+    font-style: italic;
+    text-align: right;
+    margin-top: 12px;
+}
+
+.diary-prompt {
+    background: #eeebfb;
+    padding: 18px;
+    border-radius: 12px;
+    line-height: 1.9;
+    margin: 20px 0;
+}
+
+/* =================================
+   FOOTER
+================================= */
+footer {
+    text-align: center;
+    padding: 24px;
+    background: #e5f4f6;
+    color: #668c9a;
+    font: 11px Arial, sans-serif;
+    letter-spacing: 1px;
+    line-height: 1.8;
+}
+
+/* =================================
+   MOBILE RESPONSIVENESS
+================================= */
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+
+    header {
+        padding: 28px 20px;
+    }
+
+    .header-stamp {
+        width: 75px;
+        height: 75px;
+        font-size: 10px;
+    }
+
+    .page {
+        padding: 22px 18px;
+    }
+
+    .card-grid,
+    .profile-facts {
+        grid-template-columns: 1fr;
+    }
+
+    nav {
+        padding: 12px;
+        gap: 3px;
+    }
+
+    nav label {
+        padding: 10px;
+        font-size: 12px;
+    }
+
+    h2 {
+        font-size: 27px;
+    }
+}
+
+
+/* =================================
+   ADDED: SHARK GALLERY, DRAWING BOARD & SECRET GALLERY
+   These rules are additions only.
+================================= */
+#gallery:checked ~ nav label[for="gallery"],
+#drawing:checked ~ nav label[for="drawing"],
+
+#gallery:checked ~ .pages .gallery-page,
+#drawing:checked ~ .pages .drawing-page,
+#secret:checked ~ .pages .secret-page {
+    display: block;
+}
+
+.shark-picture-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    margin: 25px 0;
+}
+
+.shark-picture-card {
+    overflow: hidden;
+    border: 1px solid #c9e6eb;
+    border-radius: 16px;
+    background: white;
+    box-shadow: 0 5px 15px #244f6010;
+}
+
+.shark-picture-card img {
+    display: block;
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    background: #dff4f7;
+}
+
+.shark-picture-card .shark-picture-content {
+    padding: 16px;
+}
+
+.shark-picture-card h3 {
+    margin-bottom: 7px;
+}
+
+.shark-picture-card p {
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.shark-picture-card details {
+    margin-top: 12px;
+}
+
+.board-tools {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    margin: 18px 0;
+    padding: 16px;
+    border: 1px solid #c9e6eb;
+    border-radius: 14px;
+    background: white;
+}
+
+.board-tools label {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font: 13px Arial, sans-serif;
+}
+
+.board-tools button,
+.secret-form button,
+.secret-lock-button {
+    border: 0;
+    border-radius: 10px;
+    padding: 11px 15px;
+    background: var(--deep);
+    color: white;
+    cursor: pointer;
+    font: bold 13px Arial, sans-serif;
+}
+
+.board-tools button:hover,
+.secret-form button:hover,
+.secret-lock-button:hover {
+    background: var(--ocean);
+}
+
+#shark-drawing-board {
+    display: block;
+    width: 100%;
+    height: 420px;
+    border: 2px dashed #8fc8d4;
+    border-radius: 14px;
+    background: #ffffff;
+    cursor: crosshair;
+    touch-action: none;
+}
+
+.board-hint {
+    margin-top: 12px;
+    color: #668c9a;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.secret-form {
+    max-width: 520px;
+    margin: 22px 0;
+    padding: 22px;
+    border: 1px solid #c9e6eb;
+    border-radius: 16px;
+    background: white;
+}
+
+.secret-form label {
+    display: block;
+    margin: 12px 0 7px;
+    font-weight: bold;
+}
+
+.secret-form input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #b8d8e0;
+    border-radius: 10px;
+    margin-bottom: 12px;
+    font: 15px Georgia, serif;
+}
+
+#secret-message {
+    margin-top: 12px;
+    line-height: 1.7;
+    font-size: 14px;
+}
+
+#secret-photo-gallery {
+    display: none;
+    margin-top: 25px;
+}
+
+#secret-photo-gallery.unlocked {
+    display: block;
+}
+
+.secret-photo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    margin: 20px 0;
+}
+
+.secret-photo-grid img {
+    width: 100%;
+    height: 230px;
+    object-fit: cover;
+    border-radius: 14px;
+    border: 2px solid #d9d2f3;
+    background: #f0eefb;
+}
+
+@media (max-width: 700px) {
+    .shark-picture-grid,
+    .secret-photo-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .shark-picture-card img {
+        height: 145px;
+    }
+    .secret-photo-grid img {
+        height: 180px;
+    }
+    #shark-drawing-board {
+        height: 320px;
+    }
+}
+
+@media (max-width: 430px) {
+    .shark-picture-grid,
+    .secret-photo-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="journal">
+
+<!-- =================================
+     WEBSITE HEADER
+================================= -->
+<header>
+    <div class="header-top">
+        <div>
+            <div class="eyebrow">
+                Marine Field Journal · Vol. 001
+            </div>
+
+            <h1>The Shark Cave</h1>
+
+            <p>
+                A little ocean diary dedicated to the creatures
+                that have roamed our seas for millions of years.
+                Dive in, curious explorer.
+            </p>
+        </div>
+
+        <div class="header-stamp">
+            OCEAN<br>STUDIES<br>NO. 001
+        </div>
+    </div>
+</header>
+
+<!-- =================================
+     PAGE CONTROLS
+================================= -->
+<input type="radio" name="page" id="home" checked>
+<input type="radio" name="page" id="journal">
+<input type="radio" name="page" id="files">
+<input type="radio" name="page" id="notes">
+<input type="radio" name="page" id="about">
+<input type="radio" name="page" id="diary">
+<input type="radio" name="page" id="gallery">
+<input type="radio" name="page" id="drawing">
+<input type="radio" name="page" id="secret">
+
+<nav aria-label="Journal pages">
+    <label for="home">⌂ Home</label>
+    <label for="journal">☷ Shark Journal</label>
+    <label for="files">✧ Shark Files</label>
+    <label for="notes">✎ Ocean Notes</label>
+    <label for="about">♡ About Me</label>
+    <label for="diary">(°ー°〃)</label>
+    <label for="gallery">🦈 Shark Gallery</label>
+    <label for="drawing">✎ Drawing Board</label>
+</nav>
+
+<div class="pages">
+
+<!-- =================================
+     PAGE 1: HOME
+================================= -->
+<section class="page home-page">
+    <div class="section-tag">01 / Welcome, explorer</div>
+
+    <h2>Dear Visitor,</h2>
+
+    <p class="intro">
+        Welcome to MY personal shark journal!
+        I collect little discoveries about sharks,
+        their strange adaptations, their habitats, and the
+        mysteries hidden beneath the waves...heh I know mysterious right?
+    </p>
+
+    <div class="card-grid">
+
+        <article class="card">
+            <div class="card-icon">≋</div>
+            <div class="small-label">Field note 001</div>
+            <h3>Ancient Survivors</h3>
+            <p>
+                Sharks have an evolutionary history stretching
+                back more than 400 million years. Their ancestors
+                swam long before dinosaurs appeared.
+            </p>
+        </article>
+
+        <article class="card">
+            <div class="card-icon">⌁</div>
+            <div class="small-label">Field note 002</div>
+            <h3>More Than Predators</h3>
+            <p>
+                Sharks help maintain marine food webs.
+                Different species have different diets,
+                behaviors, and roles in their ecosystems.
+            </p>
+        </article>
+
+        <article class="card">
+            <div class="card-icon">◌</div>
+            <div class="small-label">Field note 003</div>
+            <h3>Built for the Blue</h3>
+            <p>
+                Many sharks can detect tiny electrical signals
+                produced by other animals, helping them locate
+                prey even when visibility is poor.
+            </p>
+        </article>
+
+        <article class="card">
+            <div class="card-icon">⌘</div>
+            <div class="small-label">Field note 004</div>
+            <h3>Every Shark Matters</h3>
+            <p>
+                Sharks face threats such as overfishing,
+                habitat loss, and accidental capture.
+                Learning about them helps us understand
+                why conservation matters.
+            </p>
+        </article>
+
+    </div>
+
+    <blockquote>
+        The ocean is full of stories. Some have fins,
+        some have spots, and all deserve to be understood.
+        <br><br>
+        <strong>— A note from 5H4RK</strong>
+    </blockquote>
+
+    <p class="intro">
+       Feel free to explore species or not <br>
+       ps..<b><i> DON'T OPEN</b></i> the sixth..one.. <br>
+    </p>
+</section>
+
+<!-- =================================
+     PAGE 2: SHARK JOURNAL
+================================= -->
+<section class="page journal-page">
+    <div class="section-tag">02 / Research notebook</div>
+
+    <h2>Pages from the Sea</h2>
+
+    <p class="intro">
+        Every shark has its own story.
+        Here are a few entries from our underwater notebook.
+    </p>
+
+    <article class="species">
+        <div class="species-heading">
+            <div class="small-label">The gentle giant</div>
+            <h3>Whale Shark</h3>
+            <p class="scientific">Rhincodon typus</p>
+        </div>
+
+        <div class="species-body">
+            <p>
+                The whale shark is the largest living fish.
+                Despite its enormous size, it feeds mainly on
+                plankton and other tiny organisms through
+                filter feeding.
+            </p>
+
+            <ul>
+                <li>Habitat: Tropical and warm temperate seas.</li>
+                <li>Diet: Plankton and small marine organisms.</li>
+                <li>Special trait: A huge mouth adapted for filter feeding.</li>
+            </ul>
+
+            <details>
+                <summary>Read field note</summary>
+                <p>
+                    Every whale shark has a unique pattern of spots.
+                    Researchers can use these patterns to help
+                    identify individual sharks.
+                </p>
+            </details>
+        </div>
+    </article>
+
+    <article class="species">
+        <div class="species-heading">
+            <div class="small-label">The ocean wanderer</div>
+            <h3>Great White Shark</h3>
+            <p class="scientific">Carcharodon carcharias</p>
+        </div>
+
+        <div class="species-body">
+            <p>
+                The great white is a powerful predatory shark
+                found in many coastal and offshore waters.
+                It plays an important role in marine food webs.
+            </p>
+
+            <ul>
+                <li>Habitat: Temperate and some subtropical waters.</li>
+                <li>Diet: Fish and other marine animals, including seals.</li>
+                <li>Special trait: Powerful swimming and keen senses.</li>
+            </ul>
+
+            <details>
+                <summary>Read field note</summary>
+                <p>
+                    Great white sharks can maintain some body regions
+                    warmer than the surrounding water, helping them
+                    remain active in cooler seas.
+                </p>
+            </details>
+        </div>
+    </article>
+
+    <article class="species">
+        <div class="species-heading">
+            <div class="small-label">The spotted beauty</div>
+            <h3>Zebra Shark</h3>
+            <p class="scientific">Stegostoma tigrinum</p>
+        </div>
+
+        <div class="species-body">
+            <p>
+                Zebra sharks often rest on the seafloor during the day
+                and search for food at night. Adults have dark spots
+                on a lighter body.
+            </p>
+
+            <ul>
+                <li>Habitat: Tropical Indo-Pacific reefs and sandy bottoms.</li>
+                <li>Diet: Mollusks, crustaceans, and small fish.</li>
+                <li>Special trait: A long tail and flexible body.</li>
+            </ul>
+
+            <details>
+                <summary>Read field note</summary>
+                <p>
+                    Young zebra sharks have dark bands instead of
+                    the spotted pattern seen in adults. Their
+                    appearance changes as they mature.
+                </p>
+            </details>
+        </div>
+    </article>
+
+    <article class="species">
+        <div class="species-heading">
+            <div class="small-label">The deep-sea mystery</div>
+            <h3>Goblin Shark</h3>
+            <p class="scientific">Mitsukurina owstoni</p>
+        </div>
+
+        <div class="species-body">
+            <p>
+                This rare deep-water shark has a long, flattened
+                snout and a distinctive jaw that can extend
+                forward when catching prey.
+            </p>
+
+            <ul>
+                <li>Habitat: Deep waters of the world's oceans.</li>
+                <li>Diet: Fish and other deep-sea animals.</li>
+                <li>Special trait: An extendable jaw.</li>
+            </ul>
+
+            <details>
+                <summary>Read field note</summary>
+                <p>
+                    The goblin shark's unusual snout contains
+                    sensory organs that help it detect electrical
+                    signals from nearby animals.
+                </p>
+            </details>
+        </div>
+    </article>
+</section>
+
+<!-- =================================
+     PAGE 3: SHARK FILES
+================================= -->
+<section class="page files-page">
+    <div class="section-tag">03 / Species index</div>
+
+    <h2>Shark Files</h2>
+
+    <p class="intro">
+        A mini reference library for curious minds.
+        Discover scientific names and distinctive traits.
+    </p>
+
+    <div class="card-grid">
+
+        <article class="card">
+            <div class="small-label">Filter feeder</div>
+            <h3>Whale Shark</h3>
+            <p><i>Rhincodon typus</i></p>
+            <hr>
+            <p>
+                The largest living fish. Feeds on tiny organisms
+                by filter feeding.
+            </p>
+        </article>
+
+        <article class="card">
+            <div class="small-label">Fast swimmer</div>
+            <h3>Shortfin Mako</h3>
+            <p><i>Isurus oxyrinchus</i></p>
+            <hr>
+            <p>
+                A fast, open-ocean shark with a streamlined body.
+            </p>
+        </article>
+
+        <article class="card">
+            <div class="small-label">Hammer-shaped head</div>
+            <h3>Scalloped Hammerhead</h3>
+            <p><i>Sphyrna lewini</i></p>
+            <hr>
+            <p>
+                Its wide head helps with sensory detection
+                and maneuvering.
+            </p>
+        </article>
+
+        <article class="card">
+            <div class="small-label">Bottom dweller</div>
+            <h3>Zebra Shark</h3>
+            <p><i>Stegostoma tigrinum</i></p>
+            <hr>
+            <p>
+                A reef-associated shark with a spotted adult pattern.
+            </p>
+        </article>
+
+        <article class="card">
+            <div class="small-label">Deep-water species</div>
+            <h3>Goblin Shark</h3>
+            <p><i>Mitsukurina owstoni</i></p>
+            <hr>
+            <p>
+                Known for its elongated snout and protruding jaws.
+            </p>
+        </article>
+
+        <article class="card">
+            <div class="small-label">Reef specialist</div>
+            <h3>Whitetip Reef Shark</h3>
+            <p><i>Triaenodon obesus</i></p>
+            <hr>
+            <p>
+                Often rests in reef crevices during the day.
+            </p>
+        </article>
+
+    </div>
+
+    <blockquote>
+        Research reminder: Check reliable marine science
+        sources when adding scientific facts and conservation
+        information to your head.
+    </blockquote>
+</section>
+
+<!-- =================================
+     PAGE 4: OCEAN NOTES
+================================= -->
+<section class="page notes-page">
+    <div class="section-tag">04 / Personal notebook</div>
+
+    <h2>Ocean Notes</h2>
+
+    <p class="intro">
+        A quiet little corner for your discoveries.
+        Use these prompts to plan your next research session.
+    </p>
+
+    
+<style>
+    .paper-note,
+    .card {
+        background: #fffdf7;
+        padding: 24px;
+        margin: 20px 0;
+        border-radius: 16px;
+        border: 1px solid #d6e3f5;
+        box-shadow: 0 4px 12px rgba(50, 80, 120, 0.08);
+        color: #263c58;
+    }
+
+    .paper-note h3,
+    .card h3 {
+        color: #526eaa;
+        margin-top: 0;
+    }
+
+    .small-label {
+        color: #8a80b8;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-bottom: 10px;
+        font-weight: bold;
+    }
+
+    .paper-note label,
+    .card label {
+        display: block;
+        margin-top: 12px;
+        margin-bottom: 6px;
+        color: #344968;
+    }
+
+    .paper-note input[type="text"],
+    .paper-note textarea,
+    .card textarea {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 12px;
+        border: 1px solid #c4d5ed;
+        border-radius: 10px;
+        background: #f8fbff;
+        color: #263c58;
+        font-family: Georgia, serif;
+        font-size: 14px;
+    }
+
+    .paper-note textarea,
+    .card textarea {
+        resize: vertical;
+    }
+
+    .paper-note input:focus,
+    .paper-note textarea:focus,
+    .card textarea:focus {
+        outline: 2px solid #b9c9f0;
+        border-color: #8aa9db;
+    }
+
+    .card input[type="checkbox"] {
+        accent-color: #8a9ed6;
+        margin-right: 8px;
+    }
+
+    .card label:has(input[type="checkbox"]) {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .card hr {
+        border: none;
+        border-top: 1px dashed #c4d5ed;
+        margin: 18px 0;
+    }
+
+    .send-button {
+        padding: 12px 22px;
+        border: none;
+        border-radius: 12px;
+        background: #a9bee8;
+        color: #263c58;
+        font-family: Georgia, serif;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background 0.2s, transform 0.2s;
+    }
+
+    .send-button:hover {
+        background: #c9bce9;
+        transform: translateY(-2px);
+    }
+
+    .form-note {
+        color: #7787a2;
+        font-size: 13px;
+        margin-top: 12px;
+    }
+</style>
+
+<form action="https://formspree.io/f/xoejnbwp" method="POST">
+
+    <div class="paper-note">
+        <h3>Today's Research Question</h3>
+        <p>Which shark would I love to learn more about?</p>
+
+        <label for="favorite">My favorite shark:</label>
+        <input
+            type="text"
+            id="favorite"
+            name="Favorite shark"
+            placeholder="e.g. Zebra shark"
+            required
+        >
+
+        <label for="name">What's your name:</label>
+        <textarea
+            id="name"
+            name="Name?"
+            placeholder="I won't tell a soul..if you tell me your name"
+            required
+        ></textarea>
+		
+        <label for="learned">Something interesting I learned:</label>
+        <textarea
+            id="learned"
+            name="Interesting fact"
+            placeholder="Write what you learned..."
+            rows="3"
+        ></textarea>
+
+        <label for="question">A question I still have:</label>
+        <textarea
+            id="question"
+            name="Research question"
+            placeholder="What are you curious about?"
+            rows="3"
+        ></textarea>
+
+        <label for="protect">One thing I can do to protect the ocean:</label>
+        <textarea
+            id="protect"
+            name="Ocean protection"
+            placeholder="Share your idea..."
+            rows="3"
+        ></textarea>
+    </div>
+
+    <div class="card">
+        <div class="small-label">Fieldwork Checklist</div>
+        <h3>My Next Discoveries</h3>
+        <p>Check the activities you want to complete!</p>
+        <hr>
+
+        <label>
+            <input type="checkbox" name="activities" value="Learn about an extinct shark">
+            Learn about an extinct shark
+        </label>
+
+        <label>
+            <input type="checkbox" name="activities" value="Research shark conservation">
+            Research shark conservation
+        </label>
+
+        <label>
+            <input type="checkbox" name="activities" value="Compare two shark species">
+            Compare two shark species
+        </label>
+
+        <label>
+            <input type="checkbox" name="activities" value="Find a shark native to Philippine waters">
+            Find a shark native to Philippine waters
+        </label>
+    </div>
+
+    <div class="card">
+        <div class="small-label">Shark Mail</div>
+        <h3>Ask Me a Question!</h3>
+        <p>Have a shark question or something interesting to share? Write it below!</p>
+
+        <label for="message">Your question or message:</label>
+        <textarea
+            id="message"
+            name="Visitor message"
+            placeholder="Type your message here..."
+            rows="5"
+            required
+        ></textarea>
+
+        <button type="submit" class="send-button">
+            Send My Answers
+        </button>
+
+        <p class="form-note">
+            Thank you for visiting my little ocean corner!
+        </p>
+    </div>
+
+</form>
+
+</section>
+
+<!-- =================================
+     PAGE 5: ABOUT ME
+================================= -->
+<section class="page about-page">
+    <div class="section-tag">05 / The person behind the journal</div>
+
+    <h2>A Little About Me</h2>
+
+    <p class="intro">
+        Every explorer has a story.
+        Here's a little introduction to the person
+        collecting all these ocean discoveries.
+    </p>
+
+    <div class="profile-banner">
+        <div class="profile-avatar">🦈</div>
+
+        <div class="small-label">Shark lover's profile</div>
+
+        <h3>Hi, I'm <i> Shell</i> !</h3>
+
+        <p>
+            A curious soul with a love for the ocean,
+            cute things, and discovering something new every day.
+        </p>
+    </div>
+
+    <div class="profile-facts">
+
+        <div class="profile-fact">
+            <strong>♡ My name</strong>
+            Shelly / Shell
+        </div>
+
+        <div class="profile-fact">
+            <strong>☁ My age</strong>
+            [BEEP]
+        </div>
+
+        <div class="profile-fact">
+            <strong>My favorite animal</strong>
+            Sharks and Cats (basically any animal but i rlly like sharks and cats more) !
+        </div>
+
+        <div class="profile-fact">
+            <strong>My favorite color</strong>
+            Lavender, Cream, and White
+        </div>
+
+        <div class="profile-fact">
+            <strong>My hobbies</strong>
+            Drawing and uhh sleeping?? 
+        </div>
+
+        <div class="profile-fact">
+            <strong>My personality</strong>
+            I dont rlly know tbh..
+        </div>
+
+    </div>
+
+    <div class="card">
+        <div class="small-label">A few things I love</div>
+
+        <h3>My Little Favorites</h3>
+
+        <p>
+            Favorite food: PUDDING AND CHOCOLATE<br>
+            Favorite song: Almost Worked by Tv girl and... Pretty Girl by Clairo<br>
+            Favorite character: PINKIE PIE(mlp) AND BMO(Adventure Time)<br>
+            Favorite place: Playground and Toystore <br>
+            Favorite shark: Helicoprion and Edestus <br>
+        </p>
+    </div>
+
+    <blockquote>
+        There is always something new to discover,
+        even in a world you thought you already knew.
+    </blockquote>
+
+    <div class="card">
+        <div class="small-label">A note to visitors</div>
+
+        <h3>Welcome to My Weird World or smth..</h3>
+
+        <p>
+            This website is my own smth or idk ,
+            where I collect shark facts, keep diary entries,
+            and celebrate the things I love..?
+            Thank you for stopping by tho !
+        </p>
+    </div>
+</section>
+
+<!-- =================================
+     PAGE 6: HELLO DIARY
+================================= -->
+<section class="page diary-page">
+    <div class="section-tag">06 / Private thoughts & random stuff </div>
+
+    <h2>Hello Diary...</h2>
+
+    <p class="intro">
+        A little something for my own brain and feelings since i dont wanna talk to it to anyone but myself HAHAHAHA....
+    </p>
+
+    <div class="diary-cover">
+        <div class="small-label">My personal stuff</div>
+
+        <h3>I feel emo..</h3>
+
+        <p style="line-height: 1.9;">
+            A collection of memories, dreams, random thoughts,
+            of my everyday life.
+        </p>
+    </div>
+
+    <article class="diary-entry">
+        <div class="diary-date">
+            Entry No. 001 · 10/01/2026
+        </div>
+
+        <h3>Today...</h3>
+
+        <p>
+            Today was somewhat..boring tbh
+            One thing that made me smile is that ITS ALMOST MY BDAY YAYYYYYY...! IM SO EXCITED ABT IT I BET THAT EVERYONES GONNA THROW A PARTYYY !!
+            hmmm..but theres something that I kept thinking about and like what if they wont and...it sucks or smth but ehh whatever i dont care..right?
+        </p>
+
+        <p>
+            If I could remember one thing about today,
+            it would be that life's unfair.
+        </p>
+
+        <p class="diary-signoff">
+            Until next time, diary.
+        </p>
+    </article>
+
+    <article class="diary-entry">
+        <div class="diary-date">
+            Entry No. 002 · 10/03/2026
+        </div>
+
+        <h3>A Little Thing on My Mind</h3
+
+        <p>
+            Lately, I've been thinking about my birthday which is tomorrow and they said they'ree gonna mix my birthday and my cousin's birthday tomorrow and I hate that 
+			cause I know that they'll completeley forget that it's also my birthday..I think I hate my birthday this year..cause my dad's not around..my brother's not around
+			and my mom well dislikes me...EVERYONE DISLIKES ME...I even lost my friends..hmm I think I'm being dramatic or something..but like
+            I hope that someone out there knows it's my birthday tomorrow..
+        </p>
+
+        <p>
+            Something I want to remind myself is:
+            Even though life is kinda unfair..just don't give up..!! You can surpass this I hope but JUST KEEP ON LIVIN !!
+        </p>
+
+        <p class="diary-signoff">
+            With hatred, me
+        </p>
+    </article>
+
+    <article class="diary-entry">
+        <div class="diary-date">
+            Entry No. 003 · 10/13/2026
+        </div>
+
+        <h3>Little Things That Make Me Happy</h3>
+
+        <p>
+            Today, I want to remember the little things I love:
+            I really love pudding ooo and also chocolate mmmm yummmmm, I enjoy listening to tv girl and clairo....buttttt i listen to any song tho haha..,
+            Hehe...I <B>love</B> my boyfried so much vro like AAA ooo his name is dio >o< !! , and <B>I LOVE SLEEPINGGG.</B>
+        </p>
+
+        <p>
+            Even small moments can become memories worth keeping.
+        </p>
+
+        <p class="diary-signoff">
+            End of entry.
+        </p>
+    </article>
+
+    <div class="diary-prompt">
+        <strong>A little writing prompt</strong>
+
+        <p>
+            If you could send a letter to your future self,
+            what would you want them to know?
+        </p>
+    </div>
+
+
+
+</section>
+
+<!-- =================================
+     ADDED PAGE 7: CLICKABLE SHARK GALLERY
+================================= -->
+<section class="page gallery-page">
+    <div class="section-tag">07 / Picture collection</div>
+    <h2>Shark Picture Gallery</h2>
+    <p class="intro">
+        Click or tap “Open shark info” on any picture to discover more.
+        Each species has a few details worth noticing.
+    </p>
+
+    <div class="shark-picture-grid">
+        <article class="shark-picture-card">
+            <img src="whale shark.png" alt="Whale shark swimming in the ocean" loading="lazy">
+            <div class="shark-picture-content">
+                <h3>Whale Shark</h3>
+                <p><i>Rhincodon typus</i></p>
+                <details>
+                    <summary>Open shark info</summary>
+                    <p>The whale shark is the largest living fish. It filters tiny organisms from the water instead of hunting large prey.</p>
+                    <p>Its skin is usually blue-gray, a color that helps it blend into open water.</p>
+                </details>
+            </div>
+        </article>
+
+        <article class="shark-picture-card">
+            <img src="GREAT WHITE SHARK.png" alt="Great white shark swimming underwater" loading="lazy">
+            <div class="shark-picture-content">
+                <h3>Great White Shark</h3>
+                <p><i>Carcharodon carcharias</i></p>
+                <details>
+                    <summary>Open shark info</summary>
+                    <p>Great white sharks are powerful swimmers with several keen senses. They help shape marine food webs.</p>
+                    <p>The tail fin helps it move forward, while its other fins help with balance and steering.</p>
+                </details>
+            </div>
+        </article>
+
+        <article class="shark-picture-card">
+            <img src="zebrashark.png" alt="Zebra shark resting near a reef" loading="lazy">
+            <div class="shark-picture-content">
+                <h3>Zebra Shark</h3>
+                <p><i>Stegostoma tigrinum</i></p>
+                <details>
+                    <summary>Open shark info</summary>
+                    <p>Young zebra sharks have stripes, while adults develop dark spots. They often rest on the seafloor during the day.</p>
+                    <p>Unlike most sharks, this species can rest on the seafloor. Some shark species have 7 pairs of gill openings.</p>
+                </details>
+            </div>
+        </article>
+
+        <article class="shark-picture-card">
+            <img src="Goblin Shark.png" alt="Goblin shark in deep ocean water" loading="lazy">
+            <div class="shark-picture-content">
+                <h3>Goblin Shark</h3>
+                <p><i>Mitsukurina owstoni</i></p>
+                <details>
+                    <summary>Open shark info</summary>
+                    <p>This deep-water shark has a long snout with sensory organs that help it detect nearby animals.</p>
+                </details>
+            </div>
+        </article>
+
+        <article class="shark-picture-card">
+            <img src="hammer head.png" alt="Hammerhead shark swimming underwater" loading="lazy">
+            <div class="shark-picture-content">
+                <h3>Hammerhead Shark</h3>
+                <p><i>Sphyrna</i> species</p>
+                <details>
+                    <summary>Open shark info</summary>
+                    <p>Its wide, hammer-shaped head helps with sensory detection and gives it a distinctive silhouette.</p>
+                </details>
+            </div>
+        </article>
+
+        <article class="shark-picture-card">
+            <img src="tigershark.png" alt="Tiger shark swimming in blue water" loading="lazy">
+            <div class="shark-picture-content">
+                <h3>Tiger Shark</h3>
+                <p><i>Galeocerdo cuvier</i></p>
+                <details>
+                    <summary>Open shark info</summary>
+                    <p>Tiger sharks have dark vertical markings, especially when young, and eat a varied diet.</p>
+                </details>
+            </div>
+        </article>
+    </div>
+    <p class="board-hint">meow</p>
+</section>
+
+<!-- =================================
+     ADDED PAGE 8: DRAWING BOARD
+================================= -->
+<section class="page drawing-page">
+    <div class="section-tag">08 / Make something ocean-y</div>
+    <h2>Shark Drawing Board</h2>
+    <p class="intro">Draw a shark, sketch an underwater world, or doodle anything you like.</p>
+
+    <div class="board-tools">
+        <label for="shark-pen-color">Pen color
+            <input type="color" id="shark-pen-color" value="#267b96">
+        </label>
+        <label for="shark-pen-size">Brush size
+            <input type="range" id="shark-pen-size" min="1" max="30" value="5">
+        </label>
+        <button type="button" id="shark-eraser">Eraser</button>
+        <button type="button" id="shark-clear-board">Clear board</button>
+        <button type="button" id="shark-save-board">Save drawing</button>
+    </div>
+
+    <canvas id="shark-drawing-board" aria-label="Drawing board"></canvas>
+    <p class="board-hint">Use your mouse, finger, stylus, or anything to draw.(currently not working..)</p>
+</section>
+
+<!-- =================================
+     ADDED PAGE 9: PERSONAL ARCHIVE
+================================= -->
+<section class="page secret-page">
+    <div class="section-tag">Personal archive</div>
+    <h2>Field Notes</h2>
+
+    <form class="secret-form" id="secret-unlock-form">
+        <label for="secret-password">Access code</label>
+        <input type="password" id="secret-password" autocomplete="off" placeholder="••••••••" required>
+        <button type="submit">Continue</button>
+        <p id="secret-message" role="status" aria-live="polite"></p>
+    </form>
+
+    <div id="secret-photo-gallery">
+        <h3>Personal Collection</h3>
+        <div class="secret-photo-grid">
+            <img src="MEH (3).jpg" alt="Personal photo" loading="lazy">
+            <img src="zebrashark.png" alt="Personal photo" loading="lazy">
+            <img src="tigershark.png" alt="Personal photo" loading="lazy">
+        </div>
+           
+        <button type="button" class="secret-lock-button" id="secret-lock-gallery">Close</button>
+    </div>
+</section>
+
+</div>
+
+<!-- =================================
+     FOOTER
+================================= -->
+<footer>
+    THE SHARK ARCHIVES · A LITTLE JOURNAL OF THE BLUE
+    <br>
+    MADE BY 5H4RK · HAZZAHH !!
+</footer>
+
+</div>
+
+
+<script>
+/* =================================
+   ADDED: DRAWING BOARD AND SECRET GALLERY
+================================= */
+(function () {
+    const canvas = document.getElementById("shark-drawing-board");
+    if (canvas) {
+        const ctx = canvas.getContext("2d");
+        const colorPicker = document.getElementById("shark-pen-color");
+        const sizePicker = document.getElementById("shark-pen-size");
+        const eraserButton = document.getElementById("shark-eraser");
+        const clearButton = document.getElementById("shark-clear-board");
+        const saveButton = document.getElementById("shark-save-board");
+        let drawing = false;
+        let erasing = false;
+
+        function resizeDrawingBoard() {
+            const oldImage = canvas.width && canvas.height ? canvas.toDataURL("image/png") : null;
+            const rect = canvas.getBoundingClientRect();
+            const pixelRatio = window.devicePixelRatio || 1;
+            canvas.width = Math.max(1, Math.round(rect.width * pixelRatio));
+            canvas.height = Math.max(1, Math.round(rect.height * pixelRatio));
+            ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+            ctx.lineCap = "round";
+            ctx.lineJoin = "round";
+            if (oldImage) {
+                const image = new Image();
+                image.onload = function () {
+                    ctx.drawImage(image, 0, 0, rect.width, rect.height);
+                };
+                image.src = oldImage;
+            }
+        }
+
+        function getPoint(event) {
+            const rect = canvas.getBoundingClientRect();
+            return { x: event.clientX - rect.left, y: event.clientY - rect.top };
+        }
+
+        canvas.addEventListener("pointerdown", function (event) {
+            drawing = true;
+            canvas.setPointerCapture(event.pointerId);
+            const point = getPoint(event);
+            ctx.beginPath();
+            ctx.moveTo(point.x, point.y);
+            ctx.strokeStyle = erasing ? "#ffffff" : colorPicker.value;
+            ctx.lineWidth = Number(sizePicker.value) * (erasing ? 3 : 1);
+            ctx.lineTo(point.x + 0.1, point.y + 0.1);
+            ctx.stroke();
+        });
+
+        canvas.addEventListener("pointermove", function (event) {
+            if (!drawing) return;
+            const point = getPoint(event);
+            ctx.strokeStyle = erasing ? "#ffffff" : colorPicker.value;
+            ctx.lineWidth = Number(sizePicker.value) * (erasing ? 3 : 1);
+            ctx.lineTo(point.x, point.y);
+            ctx.stroke();
+        });
+
+        function stopDrawing() {
+            drawing = false;
+            ctx.beginPath();
+        }
+        canvas.addEventListener("pointerup", stopDrawing);
+        canvas.addEventListener("pointercancel", stopDrawing);
+        canvas.addEventListener("pointerleave", function (event) {
+            if (event.buttons === 0) stopDrawing();
+        });
+
+        eraserButton.addEventListener("click", function () {
+            erasing = !erasing;
+            eraserButton.textContent = erasing ? "Pen" : "Eraser";
+        });
+
+        clearButton.addEventListener("click", function () {
+            const rect = canvas.getBoundingClientRect();
+            ctx.clearRect(0, 0, rect.width, rect.height);
+        });
+
+        saveButton.addEventListener("click", function () {
+            const link = document.createElement("a");
+            link.download = "my-shark-drawing.png";
+            link.href = canvas.toDataURL("image/png");
+            link.click();
+        });
+
+        resizeDrawingBoard();
+        window.addEventListener("resize", resizeDrawingBoard);
+    }
+
+    // A quiet easter egg: click the site title five times to open the archive page.
+    const siteTitle = document.querySelector("header h1");
+    const archiveTab = document.getElementById("secret");
+    let titleTaps = 0;
+    let tapReset;
+    if (siteTitle && archiveTab) {
+        siteTitle.addEventListener("click", function () {
+            titleTaps += 1;
+            window.clearTimeout(tapReset);
+            tapReset = window.setTimeout(function () { titleTaps = 0; }, 1800);
+            if (titleTaps >= 5) {
+                archiveTab.checked = true;
+                titleTaps = 0;
+            }
+        });
+        siteTitle.style.cursor = "default";
+    }
+
+    const unlockForm = document.getElementById("secret-unlock-form");
+    const photoGallery = document.getElementById("secret-photo-gallery");
+    const passwordInput = document.getElementById("secret-password");
+    const message = document.getElementById("secret-message");
+    const lockButton = document.getElementById("secret-lock-gallery");
+
+    if (unlockForm && photoGallery) {
+        unlockForm.addEventListener("submit", function (event) {
+            event.preventDefault();
+            if (passwordInput.value === "BLUEFIN7") {
+                photoGallery.classList.add("unlocked");
+                message.textContent = "Access granted.";
+                passwordInput.value = "";
+            } else {
+                photoGallery.classList.remove("unlocked");
+                message.textContent = "Access denied.";
+            }
+        });
+
+        lockButton.addEventListener("click", function () {
+            photoGallery.classList.remove("unlocked");
+            message.textContent = "";
+        });
+    }
+})();
+</script>
+
+</body>
+</html>
