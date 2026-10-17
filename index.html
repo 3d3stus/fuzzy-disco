@@ -1624,7 +1624,7 @@ footer {
 
     <form class="secret-form" id="secret-unlock-form">
         <label for="secret-password">Access code</label>
-        <input type="password" id="secret-password" autocomplete="off" placeholder="••••••••" required>
+        <input type="password" id="secret-password" autocomplete="off" placeholder="•••••••••" required>
         <button type="submit">Continue</button>
         <p id="secret-message" role="status" aria-live="polite"></p>
     </form>
@@ -1632,9 +1632,9 @@ footer {
     <div id="secret-photo-gallery">
         <h3>Personal Collection</h3>
         <div class="secret-photo-grid">
-            <img src="MEH (3).jpg" alt="Personal photo" loading="lazy">
-            <img src="zebrashark.png" alt="Personal photo" loading="lazy">
-            <img src="tigershark.png" alt="Personal photo" loading="lazy">
+            <img src="MEH (3).jpg" alt="picture or smth" loading="lazy">
+            <img src="smth.jpeg" alt="picture or smth" loading="lazy">
+            <img src="smth1.jpeg" alt="picture or smth" loading="lazy">
         </div>
            
         <button type="button" class="secret-lock-button" id="secret-lock-gallery">Close</button>
@@ -1773,7 +1773,7 @@ footer {
     if (unlockForm && photoGallery) {
         unlockForm.addEventListener("submit", function (event) {
             event.preventDefault();
-            if (passwordInput.value === "BLUEFIN7") {
+            if (passwordInput.value === "4/28/2026") {
                 photoGallery.classList.add("unlocked");
                 message.textContent = "Access granted.";
                 passwordInput.value = "";
